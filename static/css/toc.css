@@ -8,6 +8,8 @@
   padding-bottom: 185px !important;
   text-align: left;
   direction: rtl;
+  width: 19%;
+  min-width: 0px;
 }
 #tocItems{
   line-height:200%;
@@ -19,6 +21,7 @@
   cursor:pointer;
   line-height: 20px !important;
   margin-top: 10px;
+  direction: ltr;
 }
 
 .toch1{
@@ -92,11 +95,11 @@
 .activeTOC{
   font-weight: 800;
 }
-
-@media (min-width: 1350px) {
-  #toc { width: 25% }
-  body.comments-active #toc { width: 20% }
-}
+/* 
+@media (max-width: 1250px) {
+  #toc { width: 15%!important; }
+  body.comments-active #toc { width: 15%!important; }
+} */
 @media (max-width: 720px){
   #toc { display: none!important; }
 

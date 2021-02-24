@@ -5,6 +5,7 @@
   border-left: 1px solid #ccc;
   background-color: #f7f7f7;
   overflow-y: auto;
+  padding-bottom: 185px !important;
 }
 #tocItems{
   line-height:200%;
@@ -14,6 +15,8 @@
   display: block;
   overflow: hidden;
   cursor:pointer;
+  line-height: 20px !important;
+  margin-top: 10px;
 }
 
 .toch1{
@@ -54,7 +57,7 @@
 
 
 /* The behavior for incrementing and the prefix */
-.toch1:before {
+/* .toch1:before {
   content: counter(first) ". " ;
   counter-increment: first;
 }
@@ -82,7 +85,7 @@
 .toch6:before {
   content: counter(first) "." counter(second) "." counter(third) "." counter(fourth) "." counter(fifth) "." counter(sixth) ". ";
   counter-increment: sixth 1;
-}
+} */
 
 .activeTOC{
   font-weight: 800;

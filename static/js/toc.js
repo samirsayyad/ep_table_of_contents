@@ -124,8 +124,7 @@ const tableOfContents = {
     params.set('header', "");
     params.set('id', headerId);
     window.history.replaceState({}, '', `${location.pathname}?${params}`);
-
-    console.log(headerId)
+    
     const $outerdoc = $('iframe[name="ace_outer"]').contents().find('#outerdocbody');
     const $outerdocHTML = $outerdoc.parent();
     $outerdoc.animate({scrollTop: newY});

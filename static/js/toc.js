@@ -20,7 +20,8 @@ const tableOfContents = {
     const toc = {}; // The main object we will use
     const tocL = {}; // A per line record of each TOC item
     let count = 0;
-    let delims = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', '.h1', '.h2', '.h3', '.h4', '.h5', '.h6'];
+    //let delims = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', '.h1', '.h2', '.h3', '.h4', '.h5', '.h6'];
+    let delims = ['h1', 'h2', 'h3', 'h4', '.h1', '.h2', '.h3', '.h4'];
     if (clientVars.plugins.plugins.ep_context) {
       if (clientVars.plugins.plugins.ep_context.styles) {
         const styles = clientVars.plugins.plugins.ep_context.styles;

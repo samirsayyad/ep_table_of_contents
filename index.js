@@ -5,7 +5,10 @@ const settings = require('ep_etherpad-lite/node/utils/Settings');
 
 exports.eejsBlock_styles = (hookName, args, cb) => {
   args.content +=
-  "<link href='../static/plugins/ep_table_of_contents/static/css/toc.css' rel='stylesheet'>";
+  "<link href='../static/plugins/ep_table_of_contents/static/css/toc.css' type='text/css' rel='stylesheet'>";
+  args.content +=
+  "<link href='../static/plugins/ep_table_of_contents/static/css/iframe_editor.css'  type='text/css' rel='stylesheet'>";
+
   return cb();
 };
 

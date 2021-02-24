@@ -13,7 +13,9 @@
         "aceEditEvent"           : "ep_table_of_contents/static/js/aceEditEvent:aceEditEvent",
         "handleClientMessage_ACCEPT_COMMIT"           : "ep_table_of_contents/static/js/aceEditEvent:aceEditEvent",
         "handleClientMessage_NEW_CHANGES"           : "ep_table_of_contents/static/js/aceEditEvent:aceEditEvent",
-        "postAceInit"            : "ep_table_of_contents/static/js/postAceInit:postAceInit"
+        "postAceInit"            : "ep_table_of_contents/static/js/postAceInit:postAceInit",
+        "aceEditorCSS": "ep_table_of_contents/static/js/aceEditorCSS:aceEditorCSS"
+
       }
     }
   ]

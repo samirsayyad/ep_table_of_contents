@@ -11,4 +11,5 @@ exports.aceEditEvent = (hookName, args, cb) => {
   if ($('#toc:visible').length > 0) {
     tableOfContents.update();
   }
+  return cb
 };

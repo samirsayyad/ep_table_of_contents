@@ -41,7 +41,8 @@ const tableOfContents = {
       const newY = `${this.offsetTop}px`;
       let linkText = $(this).text(); // get the text for the link
       const focusId = $(this).parent()[0].id; // get the id of the link
-
+      let headerId = $(this).find('.videoHeader').attr('data-id');
+      
       if (tag === 'span') {
         tag = $(this).attr('class').replace(/.*(h[1-6]).*/, '$1');
         linkText = linkText.replace(/\s*#*/, '');
@@ -55,13 +56,13 @@ const tableOfContents = {
       if (tocL[lineNumber - 1]) {
         if (tocL[lineNumber - 1] === tag) return;
       }
-
       toc[count] = {
         tag,
         y: newY,
         text: linkText,
         focusId,
         lineNumber,
+        headerId
       };
       count++;
     });
@@ -71,7 +72,7 @@ const tableOfContents = {
     $.each(toc, (h, v) => { // for each item we should display
       const TOCString =
       `<a title='${v.text}' class='tocItem toc${v.tag}' data-class='toc${v.tag}' \
-      onClick="tableOfContents.scroll('${v.y}');" data-offset='${v.y}'>${v.text}</a>`;
+      onClick="tableOfContents.scroll('${v.y}','${v.headerId}');" data-offset='${v.y}'>${v.text}</a>`;
       tocContent += TOCString;
     });
     $('#tocItems').html(tocContent);
@@ -118,7 +119,13 @@ const tableOfContents = {
     tableOfContents.getPadHTML(rep);
   },
 
-  scroll: (newY) => {
+  scroll: (newY,headerId) => {
+    const params = new URLSearchParams(location.search);
+    params.set('header', "");
+    params.set('id', headerId);
+    window.history.replaceState({}, '', `${location.pathname}?${params}`);
+
+    console.log(headerId)
     const $outerdoc = $('iframe[name="ace_outer"]').contents().find('#outerdocbody');
     const $outerdocHTML = $outerdoc.parent();
     $outerdoc.animate({scrollTop: newY});

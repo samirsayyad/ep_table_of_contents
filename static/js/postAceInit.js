@@ -44,14 +44,16 @@ exports.postAceInit = () => {
       $("#collapserClose").css({"left":"2%"})
       $("#collapserOpen").css({"left":"-2%"})
       $("#toc").css({"overflow-y":"auto","width":"19%"})
-      $(".outerdocbody").css({"justify-content":"center"})
+      let padOuter = $('iframe[name="ace_outer"]').contents();
+      padOuter.find('#outerdocbody').attr('style', 'justify-content: unset !important');
     }else{
       $("#tocItems").removeClass("show-toc")
       $("#tocItems").addClass("hide-toc")
       $("#collapserClose").css({"left":"-2%"})
       $("#collapserOpen").css({"left":"1%"})
-      $(".outerdocbody").css({"justify-content":"unset"})
       $("#toc").css({"overflow-y":"hidden","width":"1%"})
+      let padOuter = $('iframe[name="ace_outer"]').contents();
+      padOuter.find('#outerdocbody').attr('style', 'justify-content: center !important');
 
     }
   })

@@ -35,4 +35,24 @@ exports.postAceInit = () => {
     $('#options-toc').attr('checked', false);
     tableOfContents.disable();
   }
+
+
+  $("#collapserClose , #collapserOpen").click(function(){
+    if($("#tocItems").hasClass("hide-toc")){
+      $("#tocItems").removeClass("hide-toc")
+      $("#tocItems").addClass("show-toc")
+      $("#collapserClose").css({"left":"2%"})
+      $("#collapserOpen").css({"left":"-2%"})
+      $("#toc").css({"overflow-y":"auto","width":"19%"})
+      $(".outerdocbody").css({"justify-content":"center"})
+    }else{
+      $("#tocItems").removeClass("show-toc")
+      $("#tocItems").addClass("hide-toc")
+      $("#collapserClose").css({"left":"-2%"})
+      $("#collapserOpen").css({"left":"1%"})
+      $(".outerdocbody").css({"justify-content":"unset"})
+      $("#toc").css({"overflow-y":"hidden","width":"1%"})
+
+    }
+  })
 };

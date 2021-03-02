@@ -57,7 +57,7 @@ exports.postAceInit = () => {
         $("#toc").css({"display":"none"})
         let padOuter = $('iframe[name="ace_outer"]').contents();
         padOuter.find('#outerdocbody').attr('style', 'justify-content: center !important');
-      },10)
+      },300)
     }
   })
 

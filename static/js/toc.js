@@ -8,11 +8,14 @@ const tableOfContents = {
 
   enable() {
     $('#toc').show();
+    $('#collapserContainer').show();
     this.update();
   },
 
   disable: () => {
     $('#toc').hide();
+    $('#collapserContainer').hide();
+
   },
 
   // Find Tags

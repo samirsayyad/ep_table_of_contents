@@ -39,22 +39,26 @@ exports.postAceInit = () => {
 
   $("#collapserClose , #collapserOpen").click(function(){
     if($("#tocItems").hasClass("hide-toc")){
-      $("#tocItems").removeClass("hide-toc")
-      $("#tocItems").addClass("show-toc")
-      $("#collapserClose").css({"left":"2%"})
-      $("#collapserOpen").css({"left":"-2%"})
-      $("#toc").css({"overflow-y":"auto","width":"19%"})
-      let padOuter = $('iframe[name="ace_outer"]').contents();
-      padOuter.find('#outerdocbody').attr('style', 'justify-content: unset !important');
+      $("#toc").css({"display":"block"})
+      setTimeout(()=>{
+        $("#tocItems").removeClass("hide-toc")
+        $("#tocItems").addClass("show-toc")
+        $("#collapserClose").css({"left":"2%"})
+        $("#collapserOpen").css({"left":"-2%"})
+        let padOuter = $('iframe[name="ace_outer"]').contents();
+        padOuter.find('#outerdocbody').attr('style', 'justify-content: unset !important');
+      },10)
     }else{
       $("#tocItems").removeClass("show-toc")
       $("#tocItems").addClass("hide-toc")
       $("#collapserClose").css({"left":"-2%"})
       $("#collapserOpen").css({"left":"1%"})
-      $("#toc").css({"overflow-y":"hidden","width":"1%"})
-      let padOuter = $('iframe[name="ace_outer"]').contents();
-      padOuter.find('#outerdocbody').attr('style', 'justify-content: center !important');
-
+      setTimeout(()=>{
+        $("#toc").css({"display":"none"})
+        let padOuter = $('iframe[name="ace_outer"]').contents();
+        padOuter.find('#outerdocbody').attr('style', 'justify-content: center !important');
+      },10)
     }
   })
+
 };

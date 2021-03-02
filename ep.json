@@ -2,6 +2,7 @@
   "parts": [
     {
       "name": "ep_table_of_contents",
+      "post": ["ep_etherpad-lite/static", "ep_page_view/page_view"],
       "hooks": {
         "eejsBlock_scripts"           : "ep_table_of_contents/index",
         "eejsBlock_styles"            : "ep_table_of_contents/index",

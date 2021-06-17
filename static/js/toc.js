@@ -76,7 +76,7 @@ const tableOfContents = {
     $.each(toc, (h, v) => { // for each item we should display
       const TOCString =
       `<a title='${v.text}' class='tocItem toc${v.tag}' data-class='toc${v.tag}' \
-      onClick="tableOfContents.scroll('${v.y}','${v.headerId}');" data-offset='${v.y}'>${v.text}</a>`;
+      onClick="tableOfContents.scroll('${v.y}','${v.headerId}','${v.text}');" data-offset='${v.y}'>${v.text}</a>`;
       tocContent += TOCString;
     });
     $('#tocItems').html(tocContent);
@@ -123,7 +123,7 @@ const tableOfContents = {
     tableOfContents.getPadHTML(rep);
   },
 
-  scroll: (newY,headerId) => {
+  scroll: (newY,headerId,title) => {
     const params = new URLSearchParams(location.search);
     params.set('header', "");
     params.set('id', headerId);
@@ -133,6 +133,19 @@ const tableOfContents = {
     const $outerdocHTML = $outerdoc.parent();
     $outerdoc.animate({scrollTop: newY});
     $outerdocHTML.animate({scrollTop: newY}); // needed for FF
+
+    //switching chat rooms _ ep_rocketchat
+    const message = {
+      type: 'ep_rocketchat',
+      action: 'ep_rocketchat_handleRooms',
+      userId : pad.getUserId(),
+      padId: pad.getPadId(),
+      data: {     
+        headerId : headerId,
+        title : title ,
+      },
+    };
+    pad.collabClient.sendMessage(message);
   },
 
   getParam: (sname) => {

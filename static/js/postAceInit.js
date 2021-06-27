@@ -45,6 +45,9 @@ exports.postAceInit = () => {
         $("#tocItems").addClass("show-toc")
         $("#collapserClose").css({"left":"2%"})
         $("#collapserOpen").css({"left":"-2%"})
+ 
+        $("#headerContainer").css({"display":"block"})
+
         let padOuter = $('iframe[name="ace_outer"]').contents();
         padOuter.find('#outerdocbody').attr('style', 'justify-content: unset !important');
       },10)
@@ -53,6 +56,8 @@ exports.postAceInit = () => {
       $("#tocItems").addClass("hide-toc")
       $("#collapserClose").css({"left":"-2%"})
       $("#collapserOpen").css({"left":"1%"})
+      $("#headerContainer").css({"display":"none"})
+ 
       setTimeout(()=>{
         $("#toc").css({"display":"none"})
         let padOuter = $('iframe[name="ace_outer"]').contents();

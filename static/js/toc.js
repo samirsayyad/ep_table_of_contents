@@ -8,12 +8,18 @@ const tableOfContents = {
 
   enable() {
     $('#toc').show();
+    $('#headerContainer').show();
+
+    
     $('#collapserContainer').show();
     this.update();
   },
 
   disable: () => {
     $('#toc').hide();
+
+    $('#headerContainer').hide();
+
     $('#collapserContainer').hide();
 
   },
@@ -75,11 +81,12 @@ const tableOfContents = {
     let tocContent = '';
     $.each(toc, (h, v) => { // for each item we should display
       const TOCString =
-      `<a title='${v.text}' class='tocItem toc${v.tag}' data-class='toc${v.tag}' \
-      onClick="tableOfContents.scroll('${v.y}','${v.headerId}','${v.text}');" data-offset='${v.y}'>${v.text}</a>`;
+      `<div id='${v.headerId}' title='${v.text}' class='tocItem toc${v.tag}' data-class='toc${v.tag}' \
+      onClick="tableOfContents.scroll('${v.y}','${v.headerId}','${v.text}');" data-offset='${v.y}'>${v.text}</div>`;
       tocContent += TOCString;
     });
     $('#tocItems').html(tocContent);
+    $("#generalItem").html($("#title").val())
   },
 
   // get HTML

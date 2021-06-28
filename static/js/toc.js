@@ -155,6 +155,33 @@ const tableOfContents = {
     pad.collabClient.sendMessage(message);
   },
 
+  scrollToTop : () =>{
+    var title = "";
+    var newY = 0 ;
+    const params = new URLSearchParams(location.search);
+    params.set('header', "");
+    params.set('id', "");
+    window.history.replaceState({}, '', `${location.pathname}?${params}`);
+    
+    const $outerdoc = $('iframe[name="ace_outer"]').contents().find('#outerdocbody');
+    const $outerdocHTML = $outerdoc.parent();
+    $outerdoc.animate({scrollTop: newY});
+    $outerdocHTML.animate({scrollTop: newY}); // needed for FF
+
+    //switching chat rooms _ ep_rocketchat
+    const message = {
+      type: 'ep_rocketchat',
+      action: 'ep_rocketchat_handleRooms',
+      userId : pad.getUserId(),
+      padId: pad.getPadId(),
+      data: {     
+        headerId : `GENERAL`,
+        title : title ,
+      },
+    };
+    pad.collabClient.sendMessage(message);
+  },
+
   getParam: (sname) => {
     let params = location.search.substr(location.search.indexOf('?') + 1);
     let sval = '';

@@ -81,8 +81,15 @@ const tableOfContents = {
     let tocContent = '';
     $.each(toc, (h, v) => { // for each item we should display
       const TOCString =
-      `<div id='${v.headerId}' title='${v.text}' class='tocItem toc${v.tag}' data-class='toc${v.tag}' \
-      onClick="tableOfContents.scroll('${v.y}','${v.headerId}','${v.text}');" data-offset='${v.y}'>${v.text}</div>`;
+      `<div class="itemRow tocItem">
+      <div class="titleRow">
+      <div id='${v.headerId}' title='${v.text}' class='toc${v.tag}' data-class='toc${v.tag}' \
+      onClick="tableOfContents.scroll('${v.y}','${v.headerId}','${v.text}');" data-offset='${v.y}'>${v.text}</div>
+      </div>
+      <div id='${v.headerId}_notification' class="notifyRow">
+      
+      </div>
+    </div>`;
       tocContent += TOCString;
     });
     $('#tocItems').html(tocContent);

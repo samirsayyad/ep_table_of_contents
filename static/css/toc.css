@@ -1,6 +1,5 @@
 #toc{
   display: none;
-  padding: 10px;
   background-color: #f7f7f7;
   padding-bottom: 185px !important;
   text-align: left;
@@ -119,15 +118,15 @@
   fill: gray;
 }
 .toch1{
-  margin-left:0px;
+  margin-left:15px;
   font-size: 1.5rem;
 }
 .toch2{
-  margin-left:0px;
+  margin-left:15px;
   font-size: 1.2rem;
 }
 .toch3{
-  margin-left:20px;
+  margin-left:25px;
   font-size: 1rem;
 }
 .toch4{
@@ -201,6 +200,10 @@
 
 
 .itemRow{
+  display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 .titleRow{
   width: 85%;
@@ -211,4 +214,10 @@
   width: 12%;
   height: 30px;
   float: right;
+}
+
+.highlightHeader{
+  background-color: #2678FF;
+  color:#FFFFFF
+
 }

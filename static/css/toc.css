@@ -214,10 +214,82 @@
   width: 12%;
   height: 30px;
   float: right;
+  display: flex;
+  align-items: center;
 }
 
 .highlightHeader{
   background-color: #2678FF;
   color:#FFFFFF
 
+}
+
+.bottomShadowContainer{
+  height: 132px;
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(249, 249, 249, 0) 0%, #F9F9F9 100%);
+  width: 17%;
+  display: flex;
+  align-items: center;
+}
+.topShadowContainer{
+  height: 132px;
+  position: absolute;
+  top: 3.4%;
+  background: linear-gradient(180deg, rgba(249, 249, 249, 0) 0%, #F9F9F9 100%);
+  width: 17%;
+}
+.bottomNewMention{
+  width: 156px;
+  height: 24px;
+  left: 59px;
+  top: 628px;
+
+  /* primary blue */
+
+  background: #2678FF;
+  border-radius: 14px;
+  margin: auto;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.bottomNewMention_text{
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #FFFFFF;
+  margin: auto;
+  margin-left: 23px;
+  width: 88px;
+  height: 24px;
+}
+.bottomNewMention_pointerContainer{
+  height: 20px;
+  width: 12px;
+  flex-flow: column wrap;
+  display: flex;
+  align-items: center;
+  /* margin: auto; */
+  float: right;
+  margin-right: 34px;
+  margin-top: 4px;
+  margin-left: 5px;
+}
+.bottomNewMention_pointerContainer_rectangle{
+
+  width: 2px;
+  height: 12px;
+  background: #FFFFFF;
+}
+.bottomNewMention_pointerContainer_polygon{
+  width: 8px;
+  height: 4px;
+  background-image: url("../image/polygon.svg");
 }

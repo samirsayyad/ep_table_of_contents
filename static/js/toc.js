@@ -36,6 +36,17 @@ const tableOfContents = {
         });
       }
     }
+
+    var lastScrollTop = 0;
+    $('#toc').scroll(function(event){
+      var st = $(this).scrollTop();
+      if (st > lastScrollTop){
+        $("#bottomNewMention").css({"display":"none"})
+      } 
+      lastScrollTop = st;
+    });
+
+
     delims = delims.join(',');
     const hs =
     $('iframe[name="ace_outer"]').contents().find('iframe')
@@ -125,6 +136,7 @@ const tableOfContents = {
       }
     });
   },
+  
 
   update: (rep) => {
     if (rep) {
@@ -135,6 +147,7 @@ const tableOfContents = {
 
   scroll: (newY,headerId,title) => {
     const params = new URLSearchParams(location.search);
+    const lastActiveHeader = localStorage.getItem("lastActiveHeader");
     params.set('header', "");
     params.set('id', headerId);
     window.history.replaceState({}, '', `${location.pathname}?${params}`);
@@ -144,6 +157,7 @@ const tableOfContents = {
     $outerdoc.animate({scrollTop: newY});
     $outerdocHTML.animate({scrollTop: newY}); // needed for FF
 
+    $(`#${lastActiveHeader}_container`).removeClass("highlightHeader")
     $(`#${headerId}_container`).addClass("highlightHeader")
     //switching chat rooms _ ep_rocketchat
     const message = {
@@ -157,6 +171,8 @@ const tableOfContents = {
       },
     };
     pad.collabClient.sendMessage(message);
+    localStorage.setItem("lastActiveHeader",headerId)
+
   },
 
   scrollToTop : () =>{
@@ -178,8 +194,7 @@ const tableOfContents = {
       action: 'ep_rocketchat_handleRooms',
       userId : pad.getUserId(),
       padId: pad.getPadId(),
-      data: {     
-        headerId : `GENERAL`,
+      data: {            headerId : `GENERAL`,
         title : title ,
       },
     };

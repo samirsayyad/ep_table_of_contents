@@ -51,6 +51,8 @@ const tableOfContents = {
     const hs =
     $('iframe[name="ace_outer"]').contents().find('iframe')
         .contents().find('#innerdocbody').children('div').children(delims);
+    var lastTag=1;
+    var lastTagHeaderId;
     $(hs).each(function () {
       // Remember lineNumber is -1 what a user sees
       const lineNumber = $(this).parent().prevAll().length;
@@ -58,16 +60,24 @@ const tableOfContents = {
       const newY = `${this.offsetTop}px`;
       let linkText = $(this).text(); // get the text for the link
       const focusId = $(this).parent()[0].id; // get the id of the link
-      let headerId = $(this).find('.videoHeader').attr('data-id');
+      let headerId = $(this).find('.videoHeader').attr('data-id') || $(this).attr('data-id');
       
       if (tag === 'span') {
         tag = $(this).attr('class').replace(/.*(h[1-6]).*/, '$1');
         linkText = linkText.replace(/\s*#*/, '');
       }
+      var currentTag = parseInt(tag.substring(1));
+      var parentHeaderId = headerId;
+      if (currentTag > lastTag ){
+        parentHeaderId = lastTagHeaderId;
+        console.log('we have a parent here',lastTag," because current tag is",currentTag , " :: ",lastTagHeaderId)
+      }
 
       // Create an object of lineNumbers that include the tag
       tocL[lineNumber] = tag;
-
+      lastTag = currentTag
+      lastTagHeaderId = headerId
+      
       // Does the previous line already have this delim?
       // If so do nothing..
       if (tocL[lineNumber - 1]) {
@@ -79,7 +89,8 @@ const tableOfContents = {
         text: linkText,
         focusId,
         lineNumber,
-        headerId
+        headerId,
+        parentHeaderId
       };
       count++;
     });
@@ -90,8 +101,8 @@ const tableOfContents = {
       const TOCString =
       `<div  id='${v.headerId}_container' class="itemRow tocItem">
       <div class="titleRow">
-      <div id='${v.headerId}' title='${v.text}' class='toc${v.tag}' data-class='toc${v.tag}' \
-      onClick="tableOfContents.scroll('${v.y}','${v.headerId}','${v.text}');" data-offset='${v.y}'>${v.text}</div>
+      <div id='${v.headerId}' parent='${v.parentHeaderId}' title='${v.text}' class='toc${v.tag}' data-class='toc${v.tag}' \
+      onClick="tableOfContents.scroll('${v.y}','${v.headerId}','${v.parentHeaderId}','${v.text}');" data-offset='${v.y}'>${v.text}</div>
       </div>
       <div id='${v.headerId}_notification' class="notifyRow">
       
@@ -145,7 +156,7 @@ const tableOfContents = {
     tableOfContents.getPadHTML(rep);
   },
 
-  scroll: (newY,headerId,title) => {
+  scroll: (newY,headerId,parentHeaderId,title) => {
     const params = new URLSearchParams(location.search);
     const lastActiveHeader = localStorage.getItem("lastActiveHeader");
     params.set('header', "");
@@ -156,6 +167,16 @@ const tableOfContents = {
     const $outerdocHTML = $outerdoc.parent();
     $outerdoc.animate({scrollTop: newY});
     $outerdocHTML.animate({scrollTop: newY}); // needed for FF
+console.log('headerId == parentHeaderId',headerId , parentHeaderId)
+    if(headerId == parentHeaderId ){
+      $("#parent_header_chat_room").text('');
+    }else{
+      var parentTitle = $(`#${parentHeaderId}`).attr('title');
+      console.log("parentTitle",parentTitle)
+      $("#parent_header_chat_room").text(`${parentTitle} /`);
+    }
+    $("#master_header_chat_room").text(title);
+
 
     $(`#${lastActiveHeader}_container`).removeClass("highlightHeader")
     $(`#${headerId}_container`).addClass("highlightHeader")

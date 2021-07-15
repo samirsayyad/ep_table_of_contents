@@ -167,7 +167,7 @@ const tableOfContents = {
     const $outerdocHTML = $outerdoc.parent();
     $outerdoc.animate({scrollTop: newY});
     $outerdocHTML.animate({scrollTop: newY}); // needed for FF
-console.log('headerId == parentHeaderId',headerId , parentHeaderId)
+
     if(headerId == parentHeaderId ){
       $("#parent_header_chat_room").text('');
     }else{
@@ -208,6 +208,9 @@ console.log('headerId == parentHeaderId',headerId , parentHeaderId)
     const $outerdocHTML = $outerdoc.parent();
     $outerdoc.animate({scrollTop: newY});
     $outerdocHTML.animate({scrollTop: newY}); // needed for FF
+
+    $("#parent_header_chat_room").text('');
+    $("#master_header_chat_room").text($("#generalItem").attr("title"));
 
     //switching chat rooms _ ep_rocketchat
     const message = {

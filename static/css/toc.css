@@ -18,10 +18,14 @@
 
   overflow-y: scroll;
   margin-top: 3.4%;
+  -ms-overflow-style: none; 
+  scrollbar-width: none !important 
+  
 }
 #toc::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */
 }
+
 .headerContainer{
   width: 17%;
   height: 70px;
@@ -254,6 +258,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  display: none;
 }
 .bottomNewMention_text{
   font-family: Roboto;

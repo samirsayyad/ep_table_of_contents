@@ -112,6 +112,7 @@ const tableOfContents = {
     });
     $('#tocItems').html(tocContent);
     $("#generalItem").html($("#title").val())
+    tableOfContents.scrollToHeaderByFirstTime(toc)
   },
 
   // get HTML
@@ -158,7 +159,6 @@ const tableOfContents = {
 
   scroll: (newY,headerId,parentHeaderId,title) => {
     const params = new URLSearchParams(location.search);
-    const lastActiveHeader = localStorage.getItem("lastActiveHeader");
     params.set('header', "");
     params.set('id', headerId);
     window.history.replaceState({}, '', `${location.pathname}?${params}`);
@@ -178,8 +178,7 @@ const tableOfContents = {
     $("#master_header_chat_room").text(title);
 
 
-    $(`#${lastActiveHeader}_container`).removeClass("highlightHeader")
-    $(`#${headerId}_container`).addClass("highlightHeader")
+    tableOfContents.changeHighlightPosition(headerId)
     //switching chat rooms _ ep_rocketchat
     const message = {
       type: 'ep_rocketchat',
@@ -192,8 +191,37 @@ const tableOfContents = {
       },
     };
     pad.collabClient.sendMessage(message);
-    localStorage.setItem("lastActiveHeader",headerId)
+  },
 
+  scrollToHeaderByFirstTime : (toc)=>{
+    const params = new URLSearchParams(location.search);
+    const headerId = params.get('id');
+    console.log("headerId",headerId)
+    if(headerId && headerId!==""){
+      tableOfContents.changeHighlightPosition(headerId);
+      var headerObject=null;
+      $.each(toc, (h, v) => { 
+        if (v.headerId==headerId){
+          headerObject = v;
+        }
+      })
+      if(headerObject){
+        tableOfContents.scroll(headerObject.y,headerObject.headerId,
+          headerObject.parentHeaderId,headerObject.text) // read url and scroll
+      }
+    }else{
+      tableOfContents.changeHighlightPosition("general");
+
+    }
+
+
+  },
+
+  changeHighlightPosition : (headerId)=>{
+    const lastActiveHeader = localStorage.getItem("lastActiveHeader");
+    $(`#${lastActiveHeader}_container`).removeClass("highlightHeader");
+    $(`#${headerId}_container`).addClass("highlightHeader");
+    localStorage.setItem("lastActiveHeader",headerId);
   },
 
   scrollToTop : () =>{
@@ -211,6 +239,8 @@ const tableOfContents = {
 
     $("#parent_header_chat_room").text('');
     $("#master_header_chat_room").text($("#generalItem").attr("title"));
+
+    tableOfContents.changeHighlightPosition("general")
 
     //switching chat rooms _ ep_rocketchat
     const message = {

@@ -157,6 +157,7 @@ const tableOfContents = {
   },
 
   scroll: (newY,headerId,parentHeaderId,title) => {
+    const lastActiveHeader = localStorage.getItem("lastActiveHeader");
     const params = new URLSearchParams(location.search);
     params.set('header', "");
     params.set('id', headerId);
@@ -167,32 +168,59 @@ const tableOfContents = {
     $outerdoc.animate({scrollTop: newY});
     $outerdocHTML.animate({scrollTop: newY}); // needed for FF
 
-    if(headerId == parentHeaderId ){
-      $("#parent_header_chat_room").text('');
-    }else{
-      var parentTitle = $(`#${parentHeaderId}`).attr('title');
-      console.log("parentTitle",parentTitle)
-      $("#parent_header_chat_room").text(`${tableOfContents.trimLeftTexts(parentTitle)} /`);
+    // if(headerId == parentHeaderId ){
+    //   $("#parent_header_chat_room").text('');
+    // }else{
+    //   var parentTitle = $(`#${parentHeaderId}`).attr('title');
+    //   console.log("parentTitle",parentTitle)
+    //   $("#parent_header_chat_room").text(`${tableOfContents.trimLeftTexts(parentTitle)} /`);
+    // }
+    // $("#master_header_chat_room").text(tableOfContents.trimLeftTexts(title));
+
+
+    var headerText="";
+    if(headerId && headerId!==""){
+        if(headerId == parentHeaderId){ // it means, it's root
+            headerText =$(`#${headerId}`).attr("title");
+        }else{
+            var paginateHeaderId= headerId ;
+            headerText = $(`#${paginateHeaderId}`).attr("title") + " / ";
+            do{
+                paginateHeaderId = parentHeaderId
+                parentHeaderId = $(`#${paginateHeaderId}`).attr("parent");
+                headerText = $(`#${paginateHeaderId}`).attr("title") + " / " + headerText;
+
+            }while( paginateHeaderId != parentHeaderId )
+
+            headerText = headerText.substring(0, headerText.length - 2); // in order to remove extra / end of text - :D
+            
+        }
     }
-    $("#master_header_chat_room").text(tableOfContents.trimLeftTexts(title));
+
+    
+    $("#master_header_chat_room").text(tableOfContents.trimLeftTexts(headerText));
 
 
-    tableOfContents.changeHighlightPosition(headerId)
+    if(lastActiveHeader != headerId){
+      tableOfContents.changeHighlightPosition(headerId,lastActiveHeader)
 
-    //switching chat rooms _ ep_rocketchat
-    const message = {
-      type: 'ep_rocketchat',
-      action: 'ep_rocketchat_handleRooms',
-      userId : pad.getUserId(),
-      padId: pad.getPadId(),
-      data: {     
-        headerId : headerId,
-        title : title ,
-      },
-    };
-    pad.collabClient.sendMessage(message);
+      //switching chat rooms _ ep_rocketchat
+      const message = {
+        type: 'ep_rocketchat',
+        action: 'ep_rocketchat_handleRooms',
+        userId : pad.getUserId(),
+        padId: pad.getPadId(),
+        data: {     
+          headerId : headerId,
+          title : title ,
+        },
+      };
+      pad.collabClient.sendMessage(message);
+  
+      tableOfContents.applyUi()
+    }
 
-    tableOfContents.applyUi()
+
 
   },
 
@@ -222,8 +250,7 @@ const tableOfContents = {
 
   },
 
-  changeHighlightPosition : (headerId)=>{
-    const lastActiveHeader = localStorage.getItem("lastActiveHeader");
+  changeHighlightPosition : (headerId,lastActiveHeader)=>{
     $(`#${lastActiveHeader}_container`).removeClass("highlightHeader");
     $(`#${headerId}_container`).addClass("highlightHeader");
     localStorage.setItem("lastActiveHeader",headerId);
@@ -272,8 +299,9 @@ const tableOfContents = {
   },
 
   trimLeftTexts:(text)=>{
-    if(text.length > 36){
-      var newText = "..."+text.substr((text.length - 1)-36,36);
+    const characterLimit=70
+    if(text.length > characterLimit){
+      var newText = "..."+text.substr((text.length - 1)-characterLimit,characterLimit);
       return newText;
     }
     return text;

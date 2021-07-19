@@ -298,3 +298,10 @@
   height: 4px;
   background-image: url("../image/polygon.svg");
 }
+
+.fullHeightEditor {
+  height: 100% !important;
+}
+.chatHeightEditor {
+  height: 72% !important;
+}

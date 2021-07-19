@@ -70,7 +70,6 @@ const tableOfContents = {
       var parentHeaderId = headerId;
       if (currentTag > lastTag ){
         parentHeaderId = lastTagHeaderId;
-        console.log('we have a parent here',lastTag," because current tag is",currentTag , " :: ",lastTagHeaderId)
       }
 
       // Create an object of lineNumbers that include the tag
@@ -173,12 +172,13 @@ const tableOfContents = {
     }else{
       var parentTitle = $(`#${parentHeaderId}`).attr('title');
       console.log("parentTitle",parentTitle)
-      $("#parent_header_chat_room").text(`${parentTitle} /`);
+      $("#parent_header_chat_room").text(`${tableOfContents.trimLeftTexts(parentTitle)} /`);
     }
-    $("#master_header_chat_room").text(title);
+    $("#master_header_chat_room").text(tableOfContents.trimLeftTexts(title));
 
 
     tableOfContents.changeHighlightPosition(headerId)
+
     //switching chat rooms _ ep_rocketchat
     const message = {
       type: 'ep_rocketchat',
@@ -191,6 +191,9 @@ const tableOfContents = {
       },
     };
     pad.collabClient.sendMessage(message);
+
+    tableOfContents.applyUi()
+
   },
 
   scrollToHeaderByFirstTime : (toc)=>{
@@ -205,6 +208,8 @@ const tableOfContents = {
           headerObject = v;
         }
       })
+      console.log("headerObject",headerObject)
+
       if(headerObject){
         tableOfContents.scroll(headerObject.y,headerObject.headerId,
           headerObject.parentHeaderId,headerObject.text) // read url and scroll
@@ -223,6 +228,15 @@ const tableOfContents = {
     $(`#${headerId}_container`).addClass("highlightHeader");
     localStorage.setItem("lastActiveHeader",headerId);
   },
+  applyUi:()=>{
+
+    $("#toc").css({"border-right":"1px solid #DADCE0"});
+    $(".headerContainer").css({"border-right":"1px solid #DADCE0"});
+    $("#editorcontainer iframe").removeClass('fullHeightEditor')
+    $("#editorcontainer iframe").addClass('chatHeightEditor')
+    $("#ep_rocketchat_container").show();
+
+  },
 
   scrollToTop : () =>{
     var title = "";
@@ -238,10 +252,9 @@ const tableOfContents = {
     $outerdocHTML.animate({scrollTop: newY}); // needed for FF
 
     $("#parent_header_chat_room").text('');
-    $("#master_header_chat_room").text($("#generalItem").attr("title"));
+    $("#master_header_chat_room").text( tableOfContents.trimLeftTexts($("#generalItem").attr("title")));
 
     tableOfContents.changeHighlightPosition("general")
-
     //switching chat rooms _ ep_rocketchat
     const message = {
       type: 'ep_rocketchat',
@@ -253,6 +266,18 @@ const tableOfContents = {
       },
     };
     pad.collabClient.sendMessage(message);
+
+    tableOfContents.applyUi()
+
+  },
+
+  trimLeftTexts:(text)=>{
+    if(text.length > 36){
+      var newText = "..."+text.substr((text.length - 1)-36,36);
+      return newText;
+    }
+    return text;
+    
   },
 
   getParam: (sname) => {

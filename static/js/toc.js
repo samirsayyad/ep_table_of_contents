@@ -181,7 +181,7 @@ const tableOfContents = {
     var headerText="";
     if(headerId && headerId!==""){
         if(headerId == parentHeaderId){ // it means, it's root
-            headerText =$(`#${headerId}`).attr("title");
+            headerText =tableOfContents.trimLeftTexts($(`#${headerId}`).attr("title"));
         }else{
             var paginateHeaderId= headerId ;
             headerText = $(`#${paginateHeaderId}`).attr("title") + " / ";
@@ -193,12 +193,17 @@ const tableOfContents = {
             }while( paginateHeaderId != parentHeaderId )
 
             headerText = headerText.substring(0, headerText.length - 2); // in order to remove extra / end of text - :D
-            
+            // parent must be gray
+            headerText = tableOfContents.trimLeftTexts(headerText) ;
+            headerText = "<span class='parent_header_chat_room'>" + headerText ;
+            var lastBackSlashPosition = headerText.lastIndexOf("/") + 1;
+            headerText = headerText.substring(0, lastBackSlashPosition) + "</span>" + headerText.substring(lastBackSlashPosition, headerText.length);
+        
         }
     }
 
     
-    $("#master_header_chat_room").text(tableOfContents.trimLeftTexts(headerText));
+    $("#master_header_chat_room").html(headerText);
 
 
     if(lastActiveHeader != headerId){
@@ -266,6 +271,8 @@ const tableOfContents = {
   },
 
   scrollToTop : () =>{
+    const lastActiveHeader = localStorage.getItem("lastActiveHeader");
+
     var title = "";
     var newY = 0 ;
     const params = new URLSearchParams(location.search);
@@ -281,7 +288,7 @@ const tableOfContents = {
     $("#parent_header_chat_room").text('');
     $("#master_header_chat_room").text( tableOfContents.trimLeftTexts($("#generalItem").attr("title")));
 
-    tableOfContents.changeHighlightPosition("general")
+    tableOfContents.changeHighlightPosition("general",lastActiveHeader)
     //switching chat rooms _ ep_rocketchat
     const message = {
       type: 'ep_rocketchat',
